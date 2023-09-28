@@ -7,7 +7,7 @@ import {
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { useColorScheme } from "react-native";
+import { useColorScheme, StatusBar } from "react-native";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -51,6 +51,7 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <StatusBar animated={true} barStyle={"dark-content"} hidden={false} />
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />

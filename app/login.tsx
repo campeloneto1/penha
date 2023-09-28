@@ -1,16 +1,13 @@
 import {
   SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
   TextInput,
   Text,
   View,
   Keyboard,
-  TouchableWithoutFeedback,
   Pressable,
 } from "react-native";
 import { Link } from "expo-router";
-import {} from "../components/Themed";
 import globalstyles from "../assets/styles/styles";
 import React from "react";
 
@@ -27,17 +24,18 @@ export default function LoginScreen() {
           style={styles.input}
           onChangeText={onChangeCpf}
           placeholder="CPF"
-          placeholderTextColor="#000"
+          placeholderTextColor="#3d2963"
           textAlign="center"
           inputMode="numeric"
           maxLength={11}
           value={cpf}
         />
+
         <TextInput
           style={styles.input}
           onChangeText={onChangePassword}
           placeholder="Senha"
-          placeholderTextColor="#000"
+          placeholderTextColor="#3d2963"
           textAlign="center"
           inputMode="text"
           secureTextEntry={true}
@@ -46,9 +44,14 @@ export default function LoginScreen() {
         />
 
         <View style={styles.containerButton}>
-          <TouchableOpacity style={styles.button} onPress={() => {}}>
+          {/* <TouchableOpacity style={styles.button} onPress={() => {}}>
             <Text style={styles.butttonText}>Entrar</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <Link href="/(tabs)" asChild>
+            <Pressable style={styles.button}>
+              <Text style={styles.butttonText}>Entrar</Text>
+            </Pressable>
+          </Link>
         </View>
 
         <View style={styles.containerCadastrese}>
@@ -76,6 +79,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     marginTop: "20%",
+    color: "#3d2963",
   },
   input: {
     height: 40,
@@ -92,10 +96,20 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     textAlign: "center",
-    backgroundColor: "#E779F5",
+    backgroundColor: "#3d2963",
     borderRadius: 50,
     paddingTop: 10,
     paddingBottom: 10,
+    //E779F5
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    elevation: 12,
   },
   butttonText: {
     textAlign: "center",
@@ -117,5 +131,6 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     fontSize: 25,
     fontWeight: "bold",
+    color: "#3d2963",
   },
 });

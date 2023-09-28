@@ -27,7 +27,7 @@ export default function CadastreseScreen() {
           style={styles.input}
           onChangeText={onChangeNome}
           placeholder="Nome completo"
-          placeholderTextColor="#000"
+          placeholderTextColor="#3d2963"
           textAlign="center"
           inputMode="text"
           value={nome}
@@ -36,7 +36,7 @@ export default function CadastreseScreen() {
           style={styles.input}
           onChangeText={onChangeCpf}
           placeholder="CPF"
-          placeholderTextColor="#000"
+          placeholderTextColor="#3d2963"
           textAlign="center"
           inputMode="numeric"
           maxLength={11}
@@ -46,7 +46,7 @@ export default function CadastreseScreen() {
           style={styles.input}
           onChangeText={onChangeTelefone}
           placeholder="Telefone"
-          placeholderTextColor="#000"
+          placeholderTextColor="#3d2963"
           textAlign="center"
           inputMode="numeric"
           maxLength={11}
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     marginTop: "20%",
+    color: "#3d2963",
   },
   input: {
     height: 40,
@@ -91,10 +92,19 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     textAlign: "center",
-    backgroundColor: "#E779F5",
+    backgroundColor: "#3d2963",
     borderRadius: 50,
     paddingTop: 10,
     paddingBottom: 10,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    elevation: 12,
   },
   butttonText: {
     textAlign: "center",

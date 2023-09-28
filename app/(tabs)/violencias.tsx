@@ -1,7 +1,7 @@
 import { Text, View } from "../../components/Themed";
 import { StyleSheet } from "react-native";
 
-export default function teste() {
+export default function ViolenciasScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Three</Text>
