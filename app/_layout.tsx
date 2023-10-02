@@ -56,7 +56,22 @@ function RootLayoutNav() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="cadastrese" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+        <Stack.Screen
+          name="violencia"
+          options={{ presentation: "modal", headerShown: false }}
+        />
+        <Stack.Screen
+          name="ciclo-violencia"
+          options={{ presentation: "modal", headerShown: false }}
+        />
+        <Stack.Screen
+          name="buscar-ajuda"
+          options={{ presentation: "modal", headerShown: false }}
+        />
+        <Stack.Screen
+          name="resumo-lei"
+          options={{ presentation: "modal", headerShown: false }}
+        />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>

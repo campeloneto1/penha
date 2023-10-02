@@ -20,7 +20,15 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: "#3d2963",
+        tabBarStyle: {
+          borderTopWidth: 0,
+          backgroundColor: "transparent",
+          position: "absolute",
+          left: 0,
+          bottom: 0,
+          right: 0,
+        },
       }}
     >
       <Tabs.Screen
@@ -32,7 +40,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="denunciar"
         options={{
           title: "Denunciar",
           headerShown: false,
@@ -42,11 +50,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="violencias"
+        name="menu"
         options={{
           title: "Menu",
           headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="bars" color={color} />,
         }}
       />
     </Tabs>
