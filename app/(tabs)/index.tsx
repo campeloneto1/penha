@@ -235,6 +235,15 @@ const styles = StyleSheet.create({
     height: "15%",
     justifyContent: "flex-end",
     paddingBottom: 10,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 7.49,
+    elevation: 5,
   },
   bold: {
     fontWeight: "bold",

@@ -15,7 +15,7 @@ export default function MenuScreen() {
     <View style={globalstyles.container}>
       <StatusBar animated={true} barStyle={"light-content"} hidden={false} />
       <View style={styles.containerTitle}>
-        <Text style={styles.appname}>Maria da Penha</Text>
+        <Text style={styles.appname}>Menu</Text>
       </View>
       <ScrollView style={styles.containerMenu}>
         <Link
@@ -66,6 +66,15 @@ const styles = StyleSheet.create({
     height: "15%",
     justifyContent: "flex-end",
     paddingBottom: 10,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 7.49,
+    elevation: 5,
   },
   bold: {
     fontWeight: "bold",
