@@ -1,13 +1,11 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import globalstyles from "../assets/styles/styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import ModalScreen from "../components/Modal";
 
 export default function BuscarAjudaScreen() {
   return (
-    <View style={globalstyles.container}>
-      <View style={styles.containerTitle}>
-        <Text style={styles.title}>Resumo da lei</Text>
-      </View>
+    <ModalScreen title="Resumo da lei">
       <ScrollView style={styles.containerText}>
         <View style={styles.containerText3}>
           <Text style={styles.text}>
@@ -100,29 +98,19 @@ export default function BuscarAjudaScreen() {
           </Text>
         </View>
       </ScrollView>
-    </View>
+    </ModalScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  containerTitle: {
-    height: 80,
-    backgroundColor: "#3d2963",
-    padding: 25,
-  },
   bold: {
     fontWeight: "bold",
     color: "#3d2963",
   },
-  title: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#fff",
-  },
+
   containerText: {
-    height: "70%",
-    width: "90%",
-    marginLeft: "5%",
+    height: "85%",
+    width: "100%",
   },
   containerText2: {
     marginTop: 10,

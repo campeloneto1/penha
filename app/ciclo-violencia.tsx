@@ -3,6 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import globalstyles from "../assets/styles/styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { FlatList } from "react-native-gesture-handler";
+import ModalScreen from "../components/Modal";
 
 const ciclos = [
   {
@@ -42,10 +43,7 @@ const Ciclo = ({ titulo, texto, fase }: any) => {
 
 export default function CicloViolenciaScreen() {
   return (
-    <View style={globalstyles.container}>
-      <View style={styles.containerTitle}>
-        <Text style={styles.title}>Ciclo da violência</Text>
-      </View>
+    <ModalScreen title="Ciclo da violência">
       <View style={styles.containerImg}>
         <Image
           style={styles.imageCiclo}
@@ -65,16 +63,11 @@ export default function CicloViolenciaScreen() {
           />
         )}
       />
-    </View>
+    </ModalScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  containerTitle: {
-    height: 80,
-    backgroundColor: "#3d2963",
-    padding: 25,
-  },
   containerImg: {
     alignItems: "center",
   },
@@ -99,12 +92,10 @@ const styles = StyleSheet.create({
     color: "#3d2963",
   },
   list: {
-    height: "50%",
+    height: "55%",
   },
   containerTextDescricao: {
     marginTop: 10,
-    width: "90%",
-    marginLeft: "5%",
   },
   tituloDescricao: {
     fontSize: 20,
@@ -114,7 +105,7 @@ const styles = StyleSheet.create({
     textAlign: "auto",
     paddingTop: 5,
     fontSize: 15,
-    color: "#3d2963",
+    //color: "#3d2963",
     width: 350,
   },
 });

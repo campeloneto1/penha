@@ -9,14 +9,11 @@ import {
 import { Link } from "expo-router";
 import globalstyles from "../../assets/styles/styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import LayoutScreen from "../../components/Layout";
 
 export default function MenuScreen() {
   return (
-    <View style={globalstyles.container}>
-      <StatusBar animated={true} barStyle={"light-content"} hidden={false} />
-      <View style={styles.containerTitle}>
-        <Text style={styles.appname}>Menu</Text>
-      </View>
+    <LayoutScreen title="Menu">
       <ScrollView style={styles.containerMenu}>
         <Link
           href={{
@@ -47,7 +44,7 @@ export default function MenuScreen() {
           </Pressable>
         </Link>
       </ScrollView>
-    </View>
+    </LayoutScreen>
   );
 }
 
@@ -55,44 +52,12 @@ const styles = StyleSheet.create({
   backgorundColor: {
     backgroundColor: "#3d2963",
   },
-  container: {
-    marginLeft: "5%",
-    width: "90%",
-    backgroundColor: "transparent",
-  },
-  containerTitle: {
-    backgroundColor: "#3d2963",
-    paddingLeft: "5%",
-    height: "15%",
-    justifyContent: "flex-end",
-    paddingBottom: 10,
-
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 7.49,
-    elevation: 5,
-  },
   bold: {
     fontWeight: "bold",
   },
-  title: {
-    fontSize: 18,
-    marginTop: "5%",
-    color: "#fff",
-  },
-  appname: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#fff",
-  },
-
   containerMenu: {
     height: "auto",
-    marginLeft: "5%",
+    //marginLeft: "5%",
     width: "90%",
   },
   itemMenu: {
@@ -104,8 +69,8 @@ const styles = StyleSheet.create({
   },
   textMenu: {
     marginLeft: 10,
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 17,
+    //fontWeight: "bold",
     color: "#3d2963",
   },
 });

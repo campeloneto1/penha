@@ -1,20 +1,18 @@
 import {
-  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   Text,
   View,
   FlatList,
-  StatusBar,
   Pressable,
 } from "react-native";
-import globalstyles from "../../assets/styles/styles";
 import { Link } from "expo-router";
 import { useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import LayoutScreen from "../../components/Layout";
 //import { Text, View } from '../../components/Themed';
 
-export default function TabOneScreen() {
+export default function IndexScreen() {
   const [textButton, OnChangeTextButton] = useState("Pedir Ajuda");
 
   const buttonClickedHandler = () => {
@@ -134,10 +132,8 @@ export default function TabOneScreen() {
         <View style={styles.cardBody}>
           <View style={styles.card}>
             <FontAwesome size={20} color={"#fff"} name={icon} />
-            {/* <Text>{icon}</Text> */}
           </View>
           <Text style={styles.cardTitle}>{nome}</Text>
-          {/* <Text style={styles.cardDescricao}>{descricao}</Text> */}
         </View>
       </Pressable>
     </Link>
@@ -162,61 +158,54 @@ export default function TabOneScreen() {
   };
 
   return (
-    <View style={globalstyles.container}>
-      <StatusBar animated={true} barStyle={"light-content"} hidden={false} />
-      <View style={styles.containerTitle}>
-        <Text style={styles.title}>Olá</Text>
-        <Text style={styles.appname}>Maria da Penha</Text>
+    <LayoutScreen title="Maria da Penha" subtitle="Olá">
+      <View style={styles.containerCards}>
+        <Text style={styles.titleCards}>Tipos de violência:</Text>
+        <FlatList
+          horizontal
+          data={violencias}
+          renderItem={({ item }) => (
+            <Card
+              nome={item.nome}
+              descricao={item.descricao}
+              icon={item.icon}
+              tipos={item.tipos}
+              id={item.id}
+            />
+          )}
+        />
       </View>
-      <View style={styles.container}>
-        <View style={styles.containerCards}>
-          <Text style={styles.titleCards}>Tipos de violência:</Text>
-          <FlatList
-            horizontal
-            data={violencias}
-            renderItem={({ item }) => (
-              <Card
-                nome={item.nome}
-                descricao={item.descricao}
-                icon={item.icon}
-                tipos={item.tipos}
-                id={item.id}
-              />
-            )}
-          />
-        </View>
-        <View>
-          <Item
-            titulo="Ciclo da violência"
-            descricao="Saiba identificar as três principais fases do ciclo e entenda como
+      <View>
+        <Item
+          titulo="Ciclo da violência"
+          descricao="Saiba identificar as três principais fases do ciclo e entenda como
               ele funciona."
-            path="/ciclo-violencia"
-          />
+          path="/ciclo-violencia"
+        />
 
-          <Item
-            titulo="Como buscar ajuda"
-            descricao="As mulheres devem procurar, em primeiro lugar, um Centro de Referência de Atendimento à Mulher (CRM) em sua cidade."
-            path="/buscar-ajuda"
-          />
+        <Item
+          titulo="Como buscar ajuda"
+          descricao="As mulheres devem procurar, em primeiro lugar, um Centro de Referência de Atendimento à Mulher (CRM) em sua cidade."
+          path="/buscar-ajuda"
+        />
 
-          <Item
-            titulo="Resumo da lei"
-            descricao="Saiba quais são os principais dispositivos da Lei n. 11.340/2006 e os direitos garantidos pela legislação que protege as mulheres contra a violência doméstica e familiar."
-            path="/resumo-lei"
-          />
-        </View>
-
-        <View style={styles.containerButton}>
-          <TouchableOpacity
-            style={styles.button}
-            onLongPress={buttonClickedHandler}
-            delayLongPress={3000}
-          >
-            <Text style={styles.butttonText}>{textButton}</Text>
-          </TouchableOpacity>
-        </View>
+        <Item
+          titulo="Resumo da lei"
+          descricao="Saiba quais são os principais dispositivos da Lei n. 11.340/2006 e os direitos garantidos pela legislação que protege as mulheres contra a violência doméstica e familiar."
+          path="/resumo-lei"
+        />
       </View>
-    </View>
+
+      <View style={styles.containerButton}>
+        <TouchableOpacity
+          style={styles.button}
+          onLongPress={buttonClickedHandler}
+          delayLongPress={3000}
+        >
+          <Text style={styles.butttonText}>{textButton}</Text>
+        </TouchableOpacity>
+      </View>
+    </LayoutScreen>
   );
 }
 
@@ -224,40 +213,11 @@ const styles = StyleSheet.create({
   backgorundColor: {
     backgroundColor: "#3d2963",
   },
-  container: {
-    marginLeft: "5%",
-    width: "90%",
-    backgroundColor: "transparent",
-  },
-  containerTitle: {
-    backgroundColor: "#3d2963",
-    paddingLeft: "5%",
-    height: "15%",
-    justifyContent: "flex-end",
-    paddingBottom: 10,
 
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 7.49,
-    elevation: 5,
-  },
   bold: {
     fontWeight: "bold",
   },
-  title: {
-    fontSize: 18,
-    marginTop: "5%",
-    color: "#fff",
-  },
-  appname: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#fff",
-  },
+
   containerCards: {
     height: "auto",
     width: "100%",

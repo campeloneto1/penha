@@ -1,13 +1,11 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import globalstyles from "../assets/styles/styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import ModalScreen from "../components/Modal";
 
 export default function BuscarAjudaScreen() {
   return (
-    <View style={globalstyles.container}>
-      <View style={styles.containerTitle}>
-        <Text style={styles.title}>Como buscar ajuda</Text>
-      </View>
+    <ModalScreen title="Como buscar ajuda">
       <ScrollView style={styles.containerText}>
         <Text style={styles.text}>
           As mulheres devem procurar, em primeiro lugar, um{" "}
@@ -54,16 +52,11 @@ export default function BuscarAjudaScreen() {
           NOVO SIGNIFICADO.
         </Text>
       </ScrollView>
-    </View>
+    </ModalScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  containerTitle: {
-    height: 80,
-    backgroundColor: "#3d2963",
-    padding: 25,
-  },
   bold: {
     fontWeight: "bold",
     color: "#3d2963",
@@ -74,9 +67,8 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   containerText: {
-    height: "70%",
-    width: "90%",
-    marginLeft: "5%",
+    height: "85%",
+    width: "100%",
   },
   text: {
     fontSize: 15,

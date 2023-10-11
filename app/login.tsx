@@ -6,14 +6,48 @@ import {
   View,
   Keyboard,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import { Link } from "expo-router";
 import globalstyles from "../assets/styles/styles";
 import React from "react";
+import { get, post } from "../services/services";
+import { Login } from "../models/Login";
 
 export default function LoginScreen() {
   const [cpf, onChangeCpf] = React.useState("");
   const [password, onChangePassword] = React.useState("");
+
+  const doLogin = async () => {
+    var data: Login;
+
+    //try {
+    //   const response = await fetch(
+    //     "http://10.9.168.179/apipenha/public/api/login",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         Accept: "application/json",
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(data),
+    //     }
+    //   )
+    //     .then((response) => response.json())
+    //     .then((json) => {
+    //       //const json = json.json();
+    //       console.log(json);
+    //     });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    const returnlogin = await post(
+      "http://10.9.168.179/apipenha/public/api/login"
+    );
+
+    console.log(returnlogin);
+  };
 
   return (
     <SafeAreaView style={globalstyles.container}>
@@ -44,14 +78,19 @@ export default function LoginScreen() {
         />
 
         <View style={styles.containerButton}>
-          {/* <TouchableOpacity style={styles.button} onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              doLogin();
+            }}
+          >
             <Text style={styles.butttonText}>Entrar</Text>
-          </TouchableOpacity> */}
-          <Link href="/(tabs)" asChild>
+          </TouchableOpacity>
+          {/*   <Link href="/(tabs)" asChild>
             <Pressable style={styles.button}>
               <Text style={styles.butttonText}>Entrar</Text>
             </Pressable>
-          </Link>
+          </Link>*/}
         </View>
 
         <View style={styles.containerCadastrese}>

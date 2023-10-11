@@ -9,12 +9,14 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import { Link } from "expo-router";
 import globalstyles from "../../assets/styles/styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useState } from "react";
 import RNPickerSelect from "react-native-picker-select";
+import LayoutScreen from "../../components/Layout";
 
 export default function DenunciarScreen() {
   const [vitima, setVitima] = useState("");
@@ -52,118 +54,108 @@ export default function DenunciarScreen() {
   ];
 
   return (
-    <View style={globalstyles.container}>
-      <StatusBar animated={true} barStyle={"light-content"} hidden={false} />
-      <View style={styles.containerTitle}>
-        <Text style={styles.appname}>Denunciar</Text>
-      </View>
-      <ScrollView style={styles.containerMenu}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setVitima}
-          placeholder="Vítima"
-          placeholderTextColor="#3d2963"
-          textAlign="center"
-          inputMode="text"
-          value={vitima}
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setRua}
-          placeholder="Rua"
-          placeholderTextColor="#3d2963"
-          textAlign="center"
-          inputMode="text"
-          value={rua}
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setNumero}
-          placeholder="Número"
-          placeholderTextColor="#3d2963"
-          textAlign="center"
-          inputMode="text"
-          value={numero}
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setBairro}
-          placeholder="Bairro"
-          placeholderTextColor="#3d2963"
-          textAlign="center"
-          inputMode="text"
-          value={bairro}
-        />
+    <LayoutScreen title="Denunciar">
+      <Pressable onPress={Keyboard.dismiss}>
+        <ScrollView style={styles.containerMenu}>
+          <TextInput
+            style={styles.input}
+            onChangeText={setVitima}
+            placeholder="Vítima"
+            placeholderTextColor="#3d2963"
+            textAlign="center"
+            inputMode="text"
+            value={vitima}
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={setRua}
+            placeholder="Rua"
+            placeholderTextColor="#3d2963"
+            textAlign="center"
+            inputMode="text"
+            value={rua}
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={setNumero}
+            placeholder="Número"
+            placeholderTextColor="#3d2963"
+            textAlign="center"
+            inputMode="text"
+            value={numero}
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={setBairro}
+            placeholder="Bairro"
+            placeholderTextColor="#3d2963"
+            textAlign="center"
+            inputMode="text"
+            value={bairro}
+          />
 
-        <RNPickerSelect
-          placeholder={placeholder}
-          items={sports}
-          onValueChange={(value) => {
-            console.log(value);
-          }}
-          style={pickerSelectStyles}
-        />
+          <RNPickerSelect
+            placeholder={placeholder}
+            items={sports}
+            onValueChange={(value) => {
+              console.log(value);
+            }}
+            style={pickerSelectStyles}
+          />
 
-        <TextInput
-          style={styles.input}
-          onChangeText={setAcusado}
-          placeholder="Acusado"
-          placeholderTextColor="#3d2963"
-          textAlign="center"
-          inputMode="text"
-          value={acusado}
-        />
+          <TextInput
+            style={styles.input}
+            onChangeText={setAcusado}
+            placeholder="Acusado"
+            placeholderTextColor="#3d2963"
+            textAlign="center"
+            inputMode="text"
+            value={acusado}
+          />
 
-        <TextInput
-          multiline
-          numberOfLines={4}
-          style={styles.input}
-          onChangeText={setObservacoes}
-          placeholder="Observações"
-          placeholderTextColor="#3d2963"
-          textAlign="center"
-          inputMode="text"
-          value={observacoes}
-        />
+          <TextInput
+            multiline
+            numberOfLines={4}
+            style={styles.input}
+            onChangeText={setObservacoes}
+            placeholder="Observações"
+            placeholderTextColor="#3d2963"
+            textAlign="center"
+            inputMode="text"
+            value={observacoes}
+          />
 
-        <View style={styles.containerButton}>
-          <TouchableOpacity
-            style={styles.button}
-            onLongPress={buttonClickedHandler}
-            delayLongPress={3000}
-          >
-            <Text style={styles.butttonText}>Registrar</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
+          <View style={styles.containerButton}>
+            <TouchableOpacity
+              style={styles.button}
+              onLongPress={buttonClickedHandler}
+              delayLongPress={3000}
+            >
+              <Text style={styles.butttonText}>Registrar</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </Pressable>
+    </LayoutScreen>
   );
 }
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    marginLeft: "4%",
-    width: "93%",
-    alignItems: "center",
+    marginTop: "5%",
+    // marginLeft: "3%",
     height: 40,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
+    margin: 12,
     borderBottomWidth: 1,
-    borderColor: "#000",
-    color: "#000",
-    paddingRight: 30, // to ensure the text is never behind the icon
+    padding: 10,
   },
   inputAndroid: {
-    marginLeft: "5%",
-    width: "100%",
-    alignItems: "center",
+    marginTop: "5%",
+    //marginLeft: "3%",
     height: 40,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    margin: 12,
     borderBottomWidth: 1,
-    borderColor: "#000",
-    color: "#000",
-    paddingRight: 30, // to ensure the text is never behind the icon
+    padding: 10,
   },
 });
 
@@ -171,40 +163,11 @@ const styles = StyleSheet.create({
   backgorundColor: {
     backgroundColor: "#3d2963",
   },
-  container: {
-    marginLeft: "5%",
-    width: "90%",
-    backgroundColor: "transparent",
-  },
-  containerTitle: {
-    backgroundColor: "#3d2963",
-    paddingLeft: "5%",
-    height: "15%",
-    justifyContent: "flex-end",
-    paddingBottom: 10,
 
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 7.49,
-    elevation: 5,
-  },
   bold: {
     fontWeight: "bold",
   },
-  title: {
-    fontSize: 18,
-    marginTop: "5%",
-    color: "#fff",
-  },
-  appname: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#fff",
-  },
+
   input: {
     height: 40,
     margin: 12,
@@ -215,8 +178,8 @@ const styles = StyleSheet.create({
 
   containerMenu: {
     height: "auto",
-    marginLeft: "5%",
-    width: "90%",
+    //marginLeft: "5%",
+    width: "100%",
   },
   itemMenu: {
     paddingTop: 10,
