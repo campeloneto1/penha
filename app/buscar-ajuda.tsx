@@ -1,6 +1,4 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
-import globalstyles from "../assets/styles/styles";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ModalScreen from "../components/Modal";
 
 export default function BuscarAjudaScreen() {

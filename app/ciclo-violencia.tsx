@@ -1,7 +1,4 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import globalstyles from "../assets/styles/styles";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { FlatList } from "react-native-gesture-handler";
 import ModalScreen from "../components/Modal";
 

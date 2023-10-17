@@ -1,15 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Link, router } from "expo-router";
 import globalstyles from "../assets/styles/styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { StackActions } from "@react-navigation/native";
 
 export default function ModalScreen({ title, children }: any) {
   // If the page was reloaded or navigated to directly, then the modal should be presented as

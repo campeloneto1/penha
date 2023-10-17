@@ -6,10 +6,8 @@ import {
   Text,
   View,
   Keyboard,
-  TouchableWithoutFeedback,
   Pressable,
 } from "react-native";
-import {} from "../components/Themed";
 import globalstyles from "../assets/styles/styles";
 import React from "react";
 

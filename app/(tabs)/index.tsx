@@ -7,18 +7,25 @@ import {
   Pressable,
 } from "react-native";
 import { Link } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import LayoutScreen from "../../components/Layout";
+import { getSecureStore } from "../../services/session";
+import { User } from "../../models/User";
 //import { Text, View } from '../../components/Themed';
 
 export default function IndexScreen() {
   const [textButton, OnChangeTextButton] = useState("Pedir Ajuda");
+  var user!: any;
+
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    user = getSecureStore("user");
+    console.log(user);
+  });
 
   const buttonClickedHandler = () => {
     OnChangeTextButton("Ajuda solicitada");
-    console.log("You have been clicked a button!");
-    // do something
   };
 
   type Violencia = {

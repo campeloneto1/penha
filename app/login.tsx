@@ -11,42 +11,28 @@ import {
 import { Link } from "expo-router";
 import globalstyles from "../assets/styles/styles";
 import React from "react";
-import { get, post } from "../services/services";
-import { Login } from "../models/Login";
+import axios from "axios";
+import { environment } from "../environments/environment";
+import { MaskedTextInput } from "react-native-mask-text";
+import { setSecureStore } from "../services/session";
+import { router } from "expo-router";
 
 export default function LoginScreen() {
   const [cpf, onChangeCpf] = React.useState("");
   const [password, onChangePassword] = React.useState("");
 
   const doLogin = async () => {
-    var data: Login;
-
-    //try {
-    //   const response = await fetch(
-    //     "http://10.9.168.179/apipenha/public/api/login",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         Accept: "application/json",
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(data),
-    //     }
-    //   )
-    //     .then((response) => response.json())
-    //     .then((json) => {
-    //       //const json = json.json();
-    //       console.log(json);
-    //     });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    const returnlogin = await post(
-      "http://10.9.168.179/apipenha/public/api/login"
-    );
-
-    console.log(returnlogin);
+    const data = {
+      cpf: cpf,
+      password: password,
+    };
+    //console.log(environment.url);
+    axios.post(`${environment.url}/login`, data).then((response) => {
+      //console.log(response.data);
+      setSecureStore("token", response.data.token);
+      setSecureStore("user", JSON.stringify(response.data.user));
+      router.replace("/(tabs)");
+    });
   };
 
   return (
@@ -54,7 +40,19 @@ export default function LoginScreen() {
       <Pressable style={styles.container} onPress={Keyboard.dismiss}>
         <Text style={styles.title}>Informe usuário e senha</Text>
 
-        <TextInput
+        <MaskedTextInput
+          textAlign="center"
+          inputMode="numeric"
+          placeholderTextColor="#3d2963"
+          placeholder="CPF"
+          mask="999.999.999-99"
+          onChangeText={(text, rawText) => {
+            onChangeCpf(rawText);
+          }}
+          style={styles.input}
+        />
+
+        {/* <TextInput
           style={styles.input}
           onChangeText={onChangeCpf}
           placeholder="CPF"
@@ -63,7 +61,7 @@ export default function LoginScreen() {
           inputMode="numeric"
           maxLength={11}
           value={cpf}
-        />
+        /> */}
 
         <TextInput
           style={styles.input}
@@ -76,7 +74,6 @@ export default function LoginScreen() {
           maxLength={11}
           value={password}
         />
-
         <View style={styles.containerButton}>
           <TouchableOpacity
             style={styles.button}
@@ -86,13 +83,7 @@ export default function LoginScreen() {
           >
             <Text style={styles.butttonText}>Entrar</Text>
           </TouchableOpacity>
-          {/*   <Link href="/(tabs)" asChild>
-            <Pressable style={styles.button}>
-              <Text style={styles.butttonText}>Entrar</Text>
-            </Pressable>
-          </Link>*/}
         </View>
-
         <View style={styles.containerCadastrese}>
           <Text style={styles.text}>Ou</Text>
           <Link href="/cadastrese" asChild>
@@ -126,6 +117,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     padding: 10,
     marginTop: "20%",
+    fontSize: 20,
   },
   containerButton: {
     marginTop: "20%",
