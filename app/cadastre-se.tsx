@@ -1,76 +1,94 @@
 import {
   SafeAreaView,
   StyleSheet,
+  TouchableOpacity,
   TextInput,
   Text,
   View,
   Keyboard,
   Pressable,
-  TouchableOpacity,
 } from "react-native";
-import { Link } from "expo-router";
 import globalstyles from "../assets/styles/styles";
 import React from "react";
+import { MaskedTextInput } from "react-native-mask-text";
 import axios from "axios";
 import { environment } from "../environments/environment";
-import { MaskedTextInput } from "react-native-mask-text";
-import { setSecureStore } from "../services/session";
 import { router } from "expo-router";
 //@ts-ignore
 import { Toast } from "toastify-react-native";
 
-export default function LoginScreen() {
+export default function CadastreseScreen() {
+  const [nome, onChangeNome] = React.useState("");
   const [cpf, onChangeCpf] = React.useState("");
-  const [password, onChangePassword] = React.useState("");
-  const [textCpf, onChangeTextCpf] = React.useState("CPF");
-  const [textPassword, onChangeTextPassword] = React.useState("Senha");
+  const [telefone, onChangeTelefone] = React.useState("");
 
-  const doLogin = async () => {
-    if (cpf && password && cpf.length == 11 && password.length >= 6) {
+  const [textNome, onChangeTextNome] = React.useState("Nome Completo");
+  const [textCpf, onChangeTextCpf] = React.useState("CPF");
+  const [textTelefone, onChangeTextTelefone] = React.useState("Telefone");
+
+  function cadastrar() {
+    if (nome && cpf && telefone && cpf.length == 11 && telefone.length == 11) {
       const data = {
         cpf: cpf,
-        password: password,
+        nome: nome,
+        telefone: telefone,
       };
       //console.log(environment.url);
       axios
-        .post(`${environment.url}/login`, data)
+        .post(`${environment.url}/cadastrese`, data)
         .then((response) => {
           //console.log(response.data);
-          setSecureStore("token", response.data.token);
-          setSecureStore("user", JSON.stringify(response.data.user));
-          router.replace("/(tabs)");
+          //Toast.success("Usuário cadastrado com sucesso!");
+          //router.replace("/login");
         })
         .catch((error) => {
-          //console.log(error.response);
-          if (error.response.status == 401) {
-            Toast.info("CPF ou senha inválido!");
-          }
-          if (error.response.status == 429) {
-            Toast.warn("Muitas tentativas! Aguarde 1 min e tente novamente.");
+          console.log(error.response.status);
+          if (error.response.status == 500) {
+            Toast.warn("Pessoa já cadastrada!");
           }
         });
     } else {
+      if (!nome) {
+        onChangeTextNome("Nome é obrigatório");
+      }
       if (!cpf) {
         onChangeTextCpf("CPF é obrigatório");
       }
-      if (!password) {
-        onChangeTextPassword("Senha é obrigatória");
+      if (!telefone) {
+        onChangeTextTelefone("Telefone é obrigatório");
       }
 
-      if (cpf && (cpf.length < 11 || cpf.length > 11)) {
+      if (cpf && cpf.length < 11) {
         Toast.info("CPF deve conter 11 caracteres!");
       }
 
-      if (cpf && password && password.length < 6) {
-        Toast.info("A senha deve ter no mínimo 6 caracteres");
+      if (telefone && telefone.length < 11) {
+        Toast.info("O telefone deve conter 11 caracteres!");
       }
     }
-  };
+  }
 
   return (
     <SafeAreaView style={globalstyles.container}>
       <Pressable style={styles.container} onPress={Keyboard.dismiss}>
-        <Text style={styles.title}>Informe usuário e senha</Text>
+        <View>
+          <Text style={styles.title}>Cadastre-se</Text>
+        </View>
+
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeNome}
+          onBlur={() => {
+            if (!nome) {
+              onChangeTextNome("Nome é obrigatório");
+            }
+          }}
+          placeholder={textNome}
+          placeholderTextColor="#3d2963"
+          textAlign="center"
+          inputMode="text"
+          value={nome}
+        />
 
         <MaskedTextInput
           value={cpf}
@@ -90,41 +108,33 @@ export default function LoginScreen() {
           style={styles.input}
         />
 
-        <TextInput
-          style={styles.input}
+        <MaskedTextInput
+          value={telefone}
           onBlur={() => {
-            if (!password) {
-              onChangeTextPassword("Senha é obrigatória");
+            if (!telefone) {
+              onChangeTextTelefone("Telefone é obrigatório");
             }
           }}
-          onChangeText={onChangePassword}
-          placeholder={textPassword}
-          placeholderTextColor="#3d2963"
           textAlign="center"
-          inputMode="text"
-          secureTextEntry={true}
-          maxLength={11}
-          value={password}
+          inputMode="numeric"
+          placeholderTextColor="#3d2963"
+          placeholder={textTelefone}
+          mask="(99) 9 9999-9999"
+          onChangeText={(text, rawText) => {
+            onChangeTelefone(rawText);
+          }}
+          style={styles.input}
         />
 
         <View style={styles.containerButton}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              doLogin();
+              cadastrar();
             }}
           >
-            <Text style={styles.butttonText}>Entrar</Text>
+            <Text style={styles.butttonText}>Cadastrar</Text>
           </TouchableOpacity>
-        </View>
-
-        <View style={styles.containerCadastrese}>
-          <Text style={styles.text}>Ou</Text>
-          <Link href="/cadastre-se" asChild>
-            <Pressable>
-              <Text style={styles.cadastrese}>Cadastre-se</Text>
-            </Pressable>
-          </Link>
         </View>
       </Pressable>
     </SafeAreaView>
@@ -158,10 +168,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  alertErro: {
-    fontSize: 20,
-    color: "red",
-  },
   button: {
     width: "100%",
     textAlign: "center",
@@ -169,7 +175,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingTop: 10,
     paddingBottom: 10,
-    //E779F5
 
     shadowColor: "#000",
     shadowOffset: {
@@ -192,14 +197,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  text: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
   cadastrese: {
     marginTop: "10%",
     fontSize: 25,
     fontWeight: "bold",
-    color: "#3d2963",
   },
 });

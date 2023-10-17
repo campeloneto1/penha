@@ -8,6 +8,8 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme, StatusBar } from "react-native";
+//@ts-ignore
+import ToastManager, { Toast } from "toastify-react-native";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -51,11 +53,17 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ToastManager
+        style={{ width: "100%" }}
+        position={"top"}
+        duration={3000}
+        animationStyle={"upInUpOut"}
+      />
       <StatusBar animated={true} barStyle={"dark-content"} hidden={false} />
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen name="cadastrese" options={{ headerShown: false }} />
+        <Stack.Screen name="cadastre-se" options={{ headerShown: false }} />
         <Stack.Screen
           name="violencia"
           options={{ presentation: "modal", headerShown: false }}

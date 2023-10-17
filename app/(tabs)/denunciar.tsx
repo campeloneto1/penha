@@ -148,6 +148,7 @@ const pickerSelectStyles = StyleSheet.create({
     margin: 12,
     borderBottomWidth: 1,
     padding: 10,
+    fontSize: 20,
   },
   inputAndroid: {
     marginTop: "5%",
@@ -156,6 +157,7 @@ const pickerSelectStyles = StyleSheet.create({
     margin: 12,
     borderBottomWidth: 1,
     padding: 10,
+    fontSize: 20,
   },
 });
 
@@ -174,6 +176,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     padding: 10,
     marginTop: "5%",
+    fontSize: 20,
   },
 
   containerMenu: {
