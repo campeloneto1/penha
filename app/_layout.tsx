@@ -64,6 +64,7 @@ function RootLayoutNav() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="cadastre-se" options={{ headerShown: false }} />
+
         <Stack.Screen
           name="violencia"
           options={{ presentation: "modal", headerShown: false }}

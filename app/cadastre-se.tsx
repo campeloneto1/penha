@@ -8,14 +8,17 @@ import {
   Keyboard,
   Pressable,
 } from "react-native";
+import { Link } from "expo-router";
 import globalstyles from "../assets/styles/styles";
 import React from "react";
 import { MaskedTextInput } from "react-native-mask-text";
 import axios from "axios";
 import { environment } from "../environments/environment";
 import { router } from "expo-router";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 //@ts-ignore
 import { Toast } from "toastify-react-native";
+import { setSecureStore } from "../services/session";
 
 export default function CadastreseScreen() {
   const [nome, onChangeNome] = React.useState("");
@@ -25,6 +28,31 @@ export default function CadastreseScreen() {
   const [textNome, onChangeTextNome] = React.useState("Nome Completo");
   const [textCpf, onChangeTextCpf] = React.useState("CPF");
   const [textTelefone, onChangeTextTelefone] = React.useState("Telefone");
+
+  const doLogin = async (cpf: string) => {
+    const data = {
+      cpf: cpf,
+      password: cpf,
+    };
+    //console.log(environment.url);
+    axios
+      .post(`${environment.url}/login`, data)
+      .then((response) => {
+        //console.log(response.data);
+        setSecureStore("token", response.data.token);
+        setSecureStore("user", JSON.stringify(response.data.user));
+        router.replace("/(tabs)");
+      })
+      .catch((error) => {
+        //console.log(error.response);
+        if (error.response.status == 401) {
+          Toast.info("CPF ou senha inválido!");
+        }
+        if (error.response.status == 429) {
+          Toast.warn("Muitas tentativas! Aguarde 1 min e tente novamente.");
+        }
+      });
+  };
 
   function cadastrar() {
     if (nome && cpf && telefone && cpf.length == 11 && telefone.length == 11) {
@@ -38,8 +66,9 @@ export default function CadastreseScreen() {
         .post(`${environment.url}/cadastrese`, data)
         .then((response) => {
           //console.log(response.data);
-          //Toast.success("Usuário cadastrado com sucesso!");
+          Toast.success("Usuário cadastrado com sucesso!");
           //router.replace("/login");
+          doLogin(cpf);
         })
         .catch((error) => {
           console.log(error.response.status);
@@ -71,9 +100,12 @@ export default function CadastreseScreen() {
   return (
     <SafeAreaView style={globalstyles.container}>
       <Pressable style={styles.container} onPress={Keyboard.dismiss}>
-        <View>
-          <Text style={styles.title}>Cadastre-se</Text>
-        </View>
+        <Link href="/login" asChild>
+          <Pressable>
+            <FontAwesome size={30} color={"#3d2963"} name={"arrow-left"} />
+          </Pressable>
+        </Link>
+        <Text style={styles.title}>Cadastre-se</Text>
 
         <TextInput
           style={styles.input}
@@ -150,9 +182,13 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: "bold",
   },
+  containerTitle: {
+    display: "flex",
+    flexDirection: "row",
+  },
   title: {
     fontSize: 30,
-    marginTop: "20%",
+    marginTop: "10%",
     color: "#3d2963",
   },
   input: {

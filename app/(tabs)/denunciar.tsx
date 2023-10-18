@@ -2,37 +2,88 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   ScrollView,
-  Platform,
   Pressable,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
   Keyboard,
 } from "react-native";
-import { Link } from "expo-router";
-import globalstyles from "../../assets/styles/styles";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RNPickerSelect from "react-native-picker-select";
 import LayoutScreen from "../../components/Layout";
+import { environment } from "../../environments/environment";
+import { getSecureStore } from "../../services/session";
+import { Cidade, Cidades } from "../../models/Cidade";
+import { Estado, Estados } from "../../models/Estado";
+import axios from "axios";
 
 export default function DenunciarScreen() {
+  const [token, setToken] = useState("");
   const [vitima, setVitima] = useState("");
   const [rua, setRua] = useState("");
   const [numero, setNumero] = useState("");
   const [bairro, setBairro] = useState("");
-  const [cidade, setCidade] = useState("");
+  const [estado, setEstado] = useState<Estado>();
+  const [cidade, setCidade] = useState<Cidade>();
+  const [estados, setEstados] = useState<Estados>();
+  const [cidades, setCidades] = useState<Cidades>();
   const [acusado, setAcusado] = useState("");
   const [observacoes, setObservacoes] = useState("");
 
+  // declare the data fetching function
+  const fetchData = async () => {
+    return await getSecureStore("token");
+  };
+
+  useEffect(() => {
+    fetchData()
+      .then((data) => {
+        setToken(data);
+
+        const config = {
+          headers: { Authorization: `Bearer ${token}` },
+        };
+        axios
+          .get(`${environment.url}/estados`, config)
+          .then((response) => {
+            //console.log("response.data");
+            //@ts-ignore
+            setEstados(response);
+          })
+          .catch((error) => {
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log("Error", error.message);
+            }
+            console.log(error.config);
+          });
+      })
+      // make sure to catch any error
+      .catch(console.error);
+  });
+
   const buttonClickedHandler = () => {
-    console.log("You have been clicked a button!");
-    // do something
+    //console.log(estados);
   };
 
   const placeholder = {
+    label: "Selecione o Estado",
+    value: null,
+    color: "#3d2963",
+  };
+
+  const placeholder2 = {
     label: "Selecione a Cidade",
     value: null,
     color: "#3d2963",
@@ -66,6 +117,7 @@ export default function DenunciarScreen() {
             inputMode="text"
             value={vitima}
           />
+
           <TextInput
             style={styles.input}
             onChangeText={setRua}
@@ -75,6 +127,7 @@ export default function DenunciarScreen() {
             inputMode="text"
             value={rua}
           />
+
           <TextInput
             style={styles.input}
             onChangeText={setNumero}
@@ -84,6 +137,7 @@ export default function DenunciarScreen() {
             inputMode="text"
             value={numero}
           />
+
           <TextInput
             style={styles.input}
             onChangeText={setBairro}
@@ -96,6 +150,15 @@ export default function DenunciarScreen() {
 
           <RNPickerSelect
             placeholder={placeholder}
+            items={sports}
+            onValueChange={(value) => {
+              console.log(value);
+            }}
+            style={pickerSelectStyles}
+          />
+
+          <RNPickerSelect
+            placeholder={placeholder2}
             items={sports}
             onValueChange={(value) => {
               console.log(value);
@@ -128,8 +191,7 @@ export default function DenunciarScreen() {
           <View style={styles.containerButton}>
             <TouchableOpacity
               style={styles.button}
-              onLongPress={buttonClickedHandler}
-              delayLongPress={3000}
+              onPress={buttonClickedHandler}
             >
               <Text style={styles.butttonText}>Registrar</Text>
             </TouchableOpacity>

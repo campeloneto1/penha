@@ -4,28 +4,38 @@ import {
   Text,
   View,
   FlatList,
-  Pressable,
 } from "react-native";
-import { Link } from "expo-router";
 import { useState, useEffect } from "react";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import LayoutScreen from "../../components/Layout";
 import { getSecureStore } from "../../services/session";
 import { User } from "../../models/User";
-//import { Text, View } from '../../components/Themed';
+import Card from "../../components/Card";
+import Informacao from "../../components/Informacao";
 
 export default function IndexScreen() {
   const [textButton, OnChangeTextButton] = useState("Pedir Ajuda");
-  var user!: any;
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User>();
 
-  // Similar to componentDidMount and componentDidUpdate:
+  // declare the data fetching function
+  const fetchData = async () => {
+    return await getSecureStore("user");
+  };
+
   useEffect(() => {
-    user = getSecureStore("user");
-    console.log(user);
+    // call the function
+    fetchData()
+      .then((data) => {
+        setUser(data);
+        //console.log(user);
+      })
+      // make sure to catch any error
+      .catch(console.error);
   });
 
   const buttonClickedHandler = () => {
     OnChangeTextButton("Ajuda solicitada");
+    //console.log(user.perfil);
   };
 
   type Violencia = {
@@ -121,98 +131,59 @@ export default function IndexScreen() {
     },
   ];
 
-  const Card = ({ nome, descricao, id, icon, tipos }: any) => (
-    <Link
-      href={{
-        pathname: "/violencia",
-        params: {
-          id: id,
-          nome: nome,
-          descricao: descricao,
-          icon: icon,
-          tipos: tipos,
-        },
-      }}
-      asChild
-    >
-      <Pressable>
-        <View style={styles.cardBody}>
-          <View style={styles.card}>
-            <FontAwesome size={20} color={"#fff"} name={icon} />
-          </View>
-          <Text style={styles.cardTitle}>{nome}</Text>
-        </View>
-      </Pressable>
-    </Link>
-  );
-
-  const Item = ({ titulo, descricao, path }: any) => {
-    return (
-      <Link
-        style={styles.containerItem}
-        href={{
-          pathname: path,
-          params: {},
-        }}
-        asChild
-      >
-        <Pressable>
-          <Text style={styles.titleItem}>{titulo}</Text>
-          <Text style={styles.textItem}>{descricao}</Text>
-        </Pressable>
-      </Link>
-    );
-  };
-
   return (
-    <LayoutScreen title="Maria da Penha" subtitle="Olá">
-      <View style={styles.containerCards}>
-        <Text style={styles.titleCards}>Tipos de violência:</Text>
-        <FlatList
-          horizontal
-          data={violencias}
-          renderItem={({ item }) => (
-            <Card
-              nome={item.nome}
-              descricao={item.descricao}
-              icon={item.icon}
-              tipos={item.tipos}
-              id={item.id}
+    <>
+      {user && (
+        <LayoutScreen title={user.nome} subtitle="Olá">
+          <View style={styles.containerCards}>
+            <Text style={styles.titleCards}>Tipos de violência:</Text>
+            <FlatList
+              horizontal
+              data={violencias}
+              renderItem={({ item }) => (
+                <Card
+                  nome={item.nome}
+                  descricao={item.descricao}
+                  icon={item.icon}
+                  tipos={item.tipos}
+                  id={item.id}
+                />
+              )}
             />
-          )}
-        />
-      </View>
-      <View>
-        <Item
-          titulo="Ciclo da violência"
-          descricao="Saiba identificar as três principais fases do ciclo e entenda como
+          </View>
+          <View>
+            <Informacao
+              titulo="Ciclo da violência"
+              descricao="Saiba identificar as três principais fases do ciclo e entenda como
               ele funciona."
-          path="/ciclo-violencia"
-        />
+              path="/ciclo-violencia"
+            />
 
-        <Item
-          titulo="Como buscar ajuda"
-          descricao="As mulheres devem procurar, em primeiro lugar, um Centro de Referência de Atendimento à Mulher (CRM) em sua cidade."
-          path="/buscar-ajuda"
-        />
+            <Informacao
+              titulo="Como buscar ajuda"
+              descricao="As mulheres devem procurar, em primeiro lugar, um Centro de Referência de Atendimento à Mulher (CRM) em sua cidade."
+              path="/buscar-ajuda"
+            />
 
-        <Item
-          titulo="Resumo da lei"
-          descricao="Saiba quais são os principais dispositivos da Lei n. 11.340/2006 e os direitos garantidos pela legislação que protege as mulheres contra a violência doméstica e familiar."
-          path="/resumo-lei"
-        />
-      </View>
+            <Informacao
+              titulo="Resumo da lei"
+              descricao="Saiba quais são os principais dispositivos da Lei n. 11.340/2006 e os direitos garantidos pela legislação que protege as mulheres contra a violência doméstica e familiar."
+              path="/resumo-lei"
+            />
+          </View>
 
-      <View style={styles.containerButton}>
-        <TouchableOpacity
-          style={styles.button}
-          onLongPress={buttonClickedHandler}
-          delayLongPress={3000}
-        >
-          <Text style={styles.butttonText}>{textButton}</Text>
-        </TouchableOpacity>
-      </View>
-    </LayoutScreen>
+          <View style={styles.containerButton}>
+            <TouchableOpacity
+              style={styles.button}
+              onLongPress={buttonClickedHandler}
+              delayLongPress={1000}
+            >
+              <Text style={styles.butttonText}>{textButton}</Text>
+            </TouchableOpacity>
+          </View>
+        </LayoutScreen>
+      )}
+    </>
   );
 }
 
@@ -237,59 +208,6 @@ const styles = StyleSheet.create({
     paddingTop: "5%",
     fontSize: 20,
     paddingBottom: 10,
-  },
-  cardBody: {
-    alignItems: "center",
-  },
-  card: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
-    color: "#fff",
-    marginHorizontal: 10,
-    backgroundColor: "#3d2963",
-    alignItems: "center",
-    justifyContent: "center",
-
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 7.49,
-    elevation: 5,
-  },
-  cardTitle: {
-    paddingTop: 5,
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#3d2963",
-  },
-  cardDescricao: {
-    fontSize: 15,
-  },
-  containerItem: {
-    borderColor: "#3d2963",
-    borderTopWidth: 0.3,
-    //borderBottomWidth: 0.3,
-    width: "100%",
-    height: "auto",
-    //justifyContent: "center",
-    //alignItems: "center",
-    //backgroundColor: "#000",
-  },
-  titleItem: {
-    paddingTop: 5,
-    fontSize: 20,
-    paddingBottom: 5,
-    fontWeight: "bold",
-    color: "#3d2963",
-  },
-  textItem: {
-    fontSize: 15,
-    //color: "#3d2963",
-    paddingBottom: 5,
   },
 
   containerButton: {

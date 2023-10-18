@@ -1,4 +1,5 @@
 export type User = {
+  id: number;
   nome: string;
   cpf: string;
   email: string;
@@ -14,3 +15,5 @@ export type User = {
   perfil: Object;
   password: string;
 };
+
+export type Users = Array<User>;
