@@ -8,7 +8,15 @@ export default function LayoutScreen({ children, title, subtitle }: any) {
       <StatusBar animated={true} barStyle={"light-content"} hidden={false} />
       <View style={styles.containerTitle}>
         <Text style={styles.subtitle}>{subtitle}</Text>
-        <Text style={styles.title}>{title}</Text>
+        {title.split(" ").length > 1 && (
+          <Text style={styles.title}>{`${title.split(" ")[0]} ${
+            title.split(" ")[title.split(" ").length - 1]
+          }`}</Text>
+        )}
+        {title.split(" ").length == 1 && (
+          <Text style={styles.title}>{title}</Text>
+        )}
+        {/* <Text style={styles.title}>{title}</Text> */}
       </View>
       <View style={styles.containerChildren}>{children}</View>
     </View>

@@ -6,6 +6,9 @@ export type Estado = {
   abreviatura: string;
   pais_id: number;
   pais: Pais;
+  label: string;
+  value: any;
+  key: any;
 };
 
 export type Estados = Array<Estado>;

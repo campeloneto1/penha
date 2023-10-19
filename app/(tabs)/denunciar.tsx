@@ -25,8 +25,8 @@ export default function DenunciarScreen() {
   const [bairro, setBairro] = useState("");
   const [estado, setEstado] = useState<Estado>();
   const [cidade, setCidade] = useState<Cidade>();
-  const [estados, setEstados] = useState<Estados>();
-  const [cidades, setCidades] = useState<Cidades>();
+  const [estados, setEstados] = useState<Estados>([]);
+  const [cidades, setCidades] = useState<Cidades>([]);
   const [acusado, setAcusado] = useState("");
   const [observacoes, setObservacoes] = useState("");
 
@@ -39,70 +39,33 @@ export default function DenunciarScreen() {
     fetchData()
       .then((data) => {
         setToken(data);
-
-        const config = {
-          headers: { Authorization: `Bearer ${token}` },
-        };
-        axios
-          .get(`${environment.url}/estados`, config)
-          .then((response) => {
-            //console.log("response.data");
-            //@ts-ignore
-            setEstados(response);
-          })
-          .catch((error) => {
-            if (error.response) {
-              // The request was made and the server responded with a status code
-              // that falls out of the range of 2xx
-              console.log(error.response.data);
-              console.log(error.response.status);
-              console.log(error.response.headers);
-            } else if (error.request) {
-              // The request was made but no response was received
-              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-              // http.ClientRequest in node.js
-              console.log(error.request);
-            } else {
-              // Something happened in setting up the request that triggered an Error
-              console.log("Error", error.message);
-            }
-            console.log(error.config);
-          });
       })
-      // make sure to catch any error
+      .then(() => {
+        getEstados();
+      })
       .catch(console.error);
   });
 
+  const getEstados = () => {
+    //console.log("BBBBB");
+    //console.log(token);
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    axios
+      .get(`${environment.url}/estados`, config)
+      .then((response) => {
+        setEstados(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const buttonClickedHandler = () => {
-    //console.log(estados);
+    console.log(token);
   };
-
-  const placeholder = {
-    label: "Selecione o Estado",
-    value: null,
-    color: "#3d2963",
-  };
-
-  const placeholder2 = {
-    label: "Selecione a Cidade",
-    value: null,
-    color: "#3d2963",
-  };
-
-  const sports = [
-    {
-      label: "Football",
-      value: "football",
-    },
-    {
-      label: "Baseball",
-      value: "baseball",
-    },
-    {
-      label: "Hockey",
-      value: "hockey",
-    },
-  ];
 
   return (
     <LayoutScreen title="Denunciar">
@@ -138,33 +101,36 @@ export default function DenunciarScreen() {
             value={numero}
           />
 
-          <TextInput
-            style={styles.input}
-            onChangeText={setBairro}
-            placeholder="Bairro"
-            placeholderTextColor="#3d2963"
-            textAlign="center"
-            inputMode="text"
-            value={bairro}
-          />
+          {estados && (
+            <RNPickerSelect
+              placeholder={{
+                label: "Selecione o Estado",
+                value: null,
+                color: "#3d2963",
+              }}
+              items={estados!}
+              onValueChange={(value) => {
+                //console.log(value);
+                setEstado(value);
+              }}
+              style={pickerSelectStyles}
+            />
+          )}
 
-          <RNPickerSelect
-            placeholder={placeholder}
-            items={sports}
-            onValueChange={(value) => {
-              console.log(value);
-            }}
-            style={pickerSelectStyles}
-          />
-
-          <RNPickerSelect
-            placeholder={placeholder2}
-            items={sports}
-            onValueChange={(value) => {
-              console.log(value);
-            }}
-            style={pickerSelectStyles}
-          />
+          {cidades && (
+            <RNPickerSelect
+              placeholder={{
+                label: "Selecione o Cidade",
+                value: null,
+                color: "#3d2963",
+              }}
+              items={cidades!}
+              onValueChange={(value) => {
+                console.log(value);
+              }}
+              style={pickerSelectStyles}
+            />
+          )}
 
           <TextInput
             style={styles.input}
