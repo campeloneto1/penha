@@ -23,8 +23,8 @@ export default function DenunciarScreen() {
   const [rua, setRua] = useState("");
   const [numero, setNumero] = useState("");
   const [bairro, setBairro] = useState("");
-  const [estado, setEstado] = useState<Estado>();
-  const [cidade, setCidade] = useState<Cidade>();
+  const [estado, setEstado] = useState(0);
+  const [cidade, setCidade] = useState(0);
   const [estados, setEstados] = useState<Estados>([]);
   const [cidades, setCidades] = useState<Cidades>([]);
   const [acusado, setAcusado] = useState("");
@@ -39,12 +39,13 @@ export default function DenunciarScreen() {
     fetchData()
       .then((data) => {
         setToken(data);
+        //bhbhb
       })
       .then(() => {
         getEstados();
       })
       .catch(console.error);
-  });
+  }, []);
 
   const getEstados = () => {
     //console.log("BBBBB");
@@ -57,6 +58,25 @@ export default function DenunciarScreen() {
       .get(`${environment.url}/estados`, config)
       .then((response) => {
         setEstados(response.data);
+        //console.log(response.data);
+        //asdoksand
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getCidades = () => {
+    //console.log("BBBBB");
+    //console.log(token);
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    axios
+      .get(`${environment.url}/estados/${estado}/cidades`, config)
+      .then((response) => {
+        setCidades(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -112,6 +132,7 @@ export default function DenunciarScreen() {
               onValueChange={(value) => {
                 //console.log(value);
                 setEstado(value);
+                getCidades();
               }}
               style={pickerSelectStyles}
             />
